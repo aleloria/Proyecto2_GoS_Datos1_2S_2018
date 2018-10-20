@@ -9,6 +9,10 @@ import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+/**Esta clase está basada en un ejemplo tomado de: https://stackoverflow.com/questions/12902250/java-changing-image-when-keypressed
+ * y va ser modificada para nuestro propósito.
+ */
+
 public class Game extends JFrame implements Runnable{
 	
     Graphics dbg;
