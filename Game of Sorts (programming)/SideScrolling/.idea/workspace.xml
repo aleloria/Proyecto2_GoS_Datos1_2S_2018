@@ -4,10 +4,10 @@
     <list default="true" id="a0e8dadb-0689-47c7-8df6-0163571447c6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SideScrolling/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SideScrolling/GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SideScrolling/Huerfana.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SideScrolling/Huerfana.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SideScrolling/GUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SideScrolling/Huerfana.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SideScrolling/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SideScrolling/main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Huerfana.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Huerfana.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
     </list>
@@ -20,6 +20,20 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/SideScrolling$main.ic" NAME="main Coverage Results" MODIFIED="1539824241736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="280598055">
@@ -74,28 +88,38 @@
     <session id="1932505690">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.102" value="1" />
           <entry key="project.open.time.106" value="1" />
           <entry key="project.open.time.124" value="1" />
+          <entry key="project.open.time.69" value="1" />
+          <entry key="project.open.time.78" value="1" />
           <entry key="project.open.time.99" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="3836" />
+          <entry key="java" value="10319" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3836" />
+          <entry key="JAVA" value="10319" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
-      <usages-collector id="statistics.file.extensions.open" />
-      <usages-collector id="statistics.file.types.open" />
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="java" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="5" />
+        </counts>
+      </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
       <usages-collector id="statistics.spring.boot.mvc.usages" />
       <usages-collector id="statistics.spring.boot.run.usages" />
@@ -104,12 +128,53 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/GUI.java">
+        <entry file="file://$PROJECT_DIR$/src/Nodo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+            <state relative-caret-position="17">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="docComment;class#Nodo#0" />
+                <element signature="docComment;method#Nodo#0;class#Nodo#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Lista.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="docComment;class#Lista#0" />
+                <element signature="docComment;method#Lista#0;class#Lista#0" />
+                <element signature="docComment;method#add#0;class#Lista#0" />
+                <element signature="method#add#0;class#Lista#0" />
+                <element signature="docComment;method#longitud#0;class#Lista#0" />
+                <element signature="docComment;method#recorrido#0;class#Lista#0" />
+                <element signature="method#recorrido#0;class#Lista#0" />
+                <element signature="docComment;method#imprimir#0;class#Lista#0" />
+                <element signature="method#imprimir#0;class#Lista#0" />
+                <element signature="docComment;method#busqueda#0;class#Lista#0" />
+                <element signature="method#busqueda#0;class#Lista#0" />
+                <element signature="docComment;method#inLista#0;class#Lista#0" />
+                <element signature="method#inLista#0;class#Lista#0" />
+                <element signature="docComment;method#delet#0;class#Lista#0" />
+                <element signature="method#delet#0;class#Lista#0" />
+                <element signature="docComment;method#eraser#0;class#Lista#0" />
+                <element signature="method#eraser#0;class#Lista#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Matriz.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2482">
+              <caret line="158" column="5" selection-start-line="158" selection-start-column="5" selection-end-line="158" selection-end-column="5" />
+              <folding>
+                <element signature="method#fila#0;class#Matriz#0" />
+                <element signature="method#datos#0;class#Matriz#0" />
               </folding>
             </state>
           </provider>
@@ -119,9 +184,11 @@
         <entry file="file://$PROJECT_DIR$/src/Huerfana.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="79">
-              <caret line="164" column="19" selection-start-line="164" selection-start-column="19" selection-end-line="164" selection-end-column="19" />
+              <caret line="241" column="33" selection-start-line="241" selection-start-column="33" selection-end-line="241" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1801#1802#0" expanded="true" />
+                <element signature="e#1832#1833#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,8 +197,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+            <state relative-caret-position="-9">
+              <caret column="27" lean-forward="true" selection-start-column="27" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -150,12 +217,24 @@
       <find>disparo</find>
       <find>scrol</find>
       <find>mov</find>
-      <find>move</find>
       <find>p</find>
       <find>1104</find>
+      <find>AL</find>
+      <find>p1</find>
+      <find>fuego</find>
+      <find>enemy</find>
+      <find>dragonlist</find>
+      <find>dragones</find>
+      <find>7</find>
+      <find>move</find>
+      <find>system</find>
+      <find>ball</find>
     </findStrings>
     <replaceStrings>
       <replace>904</replace>
+      <replace>contenedor</replace>
+      <replace>null</replace>
+      <replace>this</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -167,6 +246,9 @@
         <option value="$PROJECT_DIR$/src/GUI.java" />
         <option value="$PROJECT_DIR$/src/labelcito.java" />
         <option value="$PROJECT_DIR$/src/Game.java" />
+        <option value="$PROJECT_DIR$/src/Nodo.java" />
+        <option value="$PROJECT_DIR$/src/Lista.java" />
+        <option value="$PROJECT_DIR$/src/Matriz.java" />
         <option value="$PROJECT_DIR$/src/main.java" />
         <option value="$PROJECT_DIR$/src/Huerfana.java" />
       </list>
@@ -204,6 +286,16 @@
               <item name="1SideScrolling" type="462c0819:PsiDirectoryNode" />
               <item name="imagenes" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="1SideScrolling" type="b2602c69:ProjectViewProjectNode" />
+              <item name="1SideScrolling" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="1SideScrolling" type="b2602c69:ProjectViewProjectNode" />
+              <item name="1SideScrolling" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -214,7 +306,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540075906466" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540178094659" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../movement" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -277,17 +369,49 @@
       <workItem from="1540008645640" duration="668000" />
       <workItem from="1540019132131" duration="3656000" />
       <workItem from="1540067583631" duration="7950000" />
-      <workItem from="1540078112432" duration="826000" />
+      <workItem from="1540078112432" duration="20970000" />
+      <workItem from="1540133906182" duration="1717000" />
+      <workItem from="1540163697432" duration="14133000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59255000" />
+    <option name="totallyTimeSpent" value="95249000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1436508" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32923076" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33846155" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.3276923" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Database" order="7" weight="0.32936507" />
+      <window_info anchor="right" id="Maven Projects" order="8" />
+    </layout>
+    <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1436508" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
@@ -316,7 +440,7 @@
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Maven Projects" order="8" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -332,29 +456,83 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/labelcito.java" />
     <entry file="file://$PROJECT_DIR$/src/Game.java" />
-    <entry file="file://$PROJECT_DIR$/src/GUI.java">
+    <entry file="file://$PROJECT_DIR$/src/GUI.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-10.0.2/lib/src.zip!/java.desktop/java/awt/Component.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+        <state relative-caret-position="127">
+          <caret line="1038" column="14" selection-start-line="1038" selection-start-column="14" selection-end-line="1038" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10.0.2/lib/src.zip!/java.desktop/java/awt/Window.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="3977" column="20" selection-start-line="3977" selection-start-column="20" selection-end-line="3977" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Nodo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#Nodo#0" />
+            <element signature="docComment;method#Nodo#0;class#Nodo#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Lista.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="docComment;class#Lista#0" />
+            <element signature="docComment;method#Lista#0;class#Lista#0" />
+            <element signature="docComment;method#add#0;class#Lista#0" />
+            <element signature="method#add#0;class#Lista#0" />
+            <element signature="docComment;method#longitud#0;class#Lista#0" />
+            <element signature="docComment;method#recorrido#0;class#Lista#0" />
+            <element signature="method#recorrido#0;class#Lista#0" />
+            <element signature="docComment;method#imprimir#0;class#Lista#0" />
+            <element signature="method#imprimir#0;class#Lista#0" />
+            <element signature="docComment;method#busqueda#0;class#Lista#0" />
+            <element signature="method#busqueda#0;class#Lista#0" />
+            <element signature="docComment;method#inLista#0;class#Lista#0" />
+            <element signature="method#inLista#0;class#Lista#0" />
+            <element signature="docComment;method#delet#0;class#Lista#0" />
+            <element signature="method#delet#0;class#Lista#0" />
+            <element signature="docComment;method#eraser#0;class#Lista#0" />
+            <element signature="method#eraser#0;class#Lista#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Matriz.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2482">
+          <caret line="158" column="5" selection-start-line="158" selection-start-column="5" selection-end-line="158" selection-end-column="5" />
+          <folding>
+            <element signature="method#fila#0;class#Matriz#0" />
+            <element signature="method#datos#0;class#Matriz#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+        <state relative-caret-position="-9">
+          <caret column="27" lean-forward="true" selection-start-column="27" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Huerfana.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="79">
-          <caret line="164" column="19" selection-start-line="164" selection-start-column="19" selection-end-line="164" selection-end-column="19" />
+          <caret line="241" column="33" selection-start-line="241" selection-start-column="33" selection-end-line="241" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1801#1802#0" expanded="true" />
+            <element signature="e#1832#1833#0" expanded="true" />
           </folding>
         </state>
       </provider>
