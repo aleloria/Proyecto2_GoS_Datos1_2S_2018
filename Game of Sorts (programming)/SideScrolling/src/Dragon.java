@@ -11,11 +11,11 @@ public class Dragon {
     private int resistance;
     private int rank;
     private String father;
+    public int dragnum=0;
 
     public Dragon(int x,int y){
         posX=x;
         posY=y;
-
     }
 
     public void setPosX(int posX) {

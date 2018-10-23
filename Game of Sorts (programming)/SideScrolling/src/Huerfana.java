@@ -1,16 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 //Importa swing y todos sus elementos.
 public class Huerfana extends JFrame implements Runnable{
     
     protected static Graphics dbg;
-    protected static Image dbImage, Pik1,load,load4,load6,load7,load8;
+    protected static Image dbImage, load;
     protected static ArrayList<Object> dragonlist = new ArrayList<>();
-    protected static int x, y=20, xDirection, yDirection, fuegoX, fuegoY, disparo=0, a=1200, dragones=7, lives=3, X=0, X1=800, X2=1600;
+    protected static int x, y, xDirection, yDirection, fuegoX, fuegoY, disparo=0, a=1200, dragones=7, lives=3, X=0, X1=800, X2=1600;
     protected static Boolean limit = false,pause=false;
     protected static Rectangle ball = new Rectangle(fuegoX+28,fuegoY+20,20,20); Rectangle drake = new Rectangle(-10,-10,98,55); Rectangle griffin = new Rectangle(43, 80,98,45);
+    protected GriffinRider player = new GriffinRider();
 
     public void run(){
         try{
@@ -35,34 +38,36 @@ public class Huerfana extends JFrame implements Runnable{
                 ((Dragon)dragonlist.get(i)).setPosX(a);
             }
         }
-    	if(x>=0 && x<=904 && y>=0 && y<=625) {
-    		 x += xDirection;
-    		 y += yDirection;
+    	if(player.getPosX()>=0 && player.getPosX()<=904 && player.getPosY()>=0 && player.getPosY()<=625) {
+    		 player.setPosX(player.getPosX()+xDirection);
+            player.setPosY(player.getPosY()+yDirection);
     	}
     	else{
-    		if(x<0) {
+    		if(player.getPosX()<0) {
     			limit=true;
     			xDirection = 0;
-    			x=0;
+                player.setPosX(0);
     		}
-    		else if (x>904) {
+    		else if (player.getPosX()>904) {
     			limit=true;
     			xDirection = 0;
-    			x=904;
+                player.setPosX(904);
     		}
-    		else if (y<0) {
+    		else if (player.getPosY()<0) {
     			limit=true;
     			yDirection = 0;
-    			y=0;
+                player.setPosY(0);
     		}
-    		else if (y>625) {
+    		else if (player.getPosY()>625) {
     			limit=true;
     			yDirection = 0;
-    			y=625;
+                player.setPosY(625);
     		}
     	}
-    	griffin.x = x+43;
-    	griffin.y = y+60;
+    	griffin.x = player.getPosX()+43;
+    	griffin.y = player.getPosY()+60;
+    	x=player.getPosX();
+        y=player.getPosY();
     }
 
     protected static void setXDirection(int xdir) { xDirection = xdir; }
@@ -78,12 +83,7 @@ public class Huerfana extends JFrame implements Runnable{
         setBounds(50,0,1324,775);
         setVisible(true);
 
-        Pik1 = new ImageIcon("imagenes\\GryffinRider.gif").getImage().getScaledInstance(150, 150, 1);
         load = new ImageIcon("imagenes\\coloso.jpg").getImage().getScaledInstance(800, 800, 1);
-        load4 = new ImageIcon("imagenes\\fireball.gif").getImage().getScaledInstance(60,60,1);
-        load6 = new ImageIcon("imagenes\\fulllives.png").getImage().getScaledInstance(80,30,1);
-        load7 = new ImageIcon("imagenes\\2lives.gif").getImage().getScaledInstance(80,30,1);
-        load8 = new ImageIcon("imagenes\\1live.gif").getImage().getScaledInstance(80,30,1);
 
         dragonMaker();
     }
@@ -109,16 +109,8 @@ public class Huerfana extends JFrame implements Runnable{
         g.drawImage(load,X, 0, null);
         g.drawImage(load,X1, 0,null);
         g.drawImage(load,X2, 0, null);
-        g.drawImage(Pik1,x, y, null);
-        if(lives == 3){
-            g.drawImage(load6,20, 30, null);
-        }
-        if(lives == 2){
-            g.drawImage(load7,20, 30, null);
-        }
-        if(lives == 1){
-            g.drawImage(load8,20, 30, null);
-        }
+        g.drawImage(player.getImageData(),player.getPosX(), player.getPosY(), null);
+        g.drawImage(player.getImageLife(),20, 30, null);
         if (dragonlist.size() > 0){
             for(int i=0; i < dragonlist.size(); i++){
                 g.drawImage(((Dragon)dragonlist.get(i)).getImageData(), ((Dragon)dragonlist.get(i)).getPosX(), ((Dragon)dragonlist.get(i)).getPosY(),null);
@@ -126,14 +118,14 @@ public class Huerfana extends JFrame implements Runnable{
             }
         }
         if(fuegoX > 0 && fuegoX < 850){
-            g.drawImage(load4, fuegoX, fuegoY,null);
+            g.drawImage(player.getBullet(), fuegoX, fuegoY,null);
             g.drawRect(fuegoX+28,fuegoY+20,20,20);
         }
         g.fillRect(1100,0,4,775);
-        g.drawRect(x+43, y+60,98,45);
+        g.drawRect(player.getPosX()+43, player.getPosY()+60,98,45);
         //String algo=Integer.toString(fuegoX);
-        g.setFont(new Font("Arial",Font.ITALIC,30));
-        g.setColor(Color.blue);
+        //g.setFont(new Font("Arial",Font.ITALIC,30));
+        //g.setColor(Color.blue);
         //g.drawString(algo,200,200);
         repaint();
     }
@@ -168,7 +160,7 @@ public class Huerfana extends JFrame implements Runnable{
             }
         }
         else {
-            if (lives > 0){
+            if (player.getLives() > 0){
                 reset(false);
             }
             else {
@@ -185,13 +177,17 @@ public class Huerfana extends JFrame implements Runnable{
                 drake.y=((Dragon)dragonlist.get(i)).getPosY() + 40;
                 if (drake.intersects(griffin) || drake.x < -150){
                     dragonlist.remove(i);
-                    lives--;
-                    break;
+                    if (player.getLives() > 1) {
+                        player.setLives(player.getLives() - 1);
+                        break;
+                    }else {
+                        reset(true);
+                    }
                 }
             }
         }
         else {
-            if (lives > 0){
+            if (player.getLives() > 0){
                 reset(false);
             }
             else {
@@ -204,6 +200,7 @@ public class Huerfana extends JFrame implements Runnable{
         int b = 20;
         for (int i=0; i < dragones; i++){
             Dragon dragon = new Dragon(a,b);
+            dragon.dragnum=i+1;
             dragonlist.add(dragon);
             b += 100;
         }
@@ -211,7 +208,7 @@ public class Huerfana extends JFrame implements Runnable{
 
     public void reset(boolean mode){
         if (mode){
-            lives = 3; x = 0; y = 20; griffin.x = 43; griffin.y = 80;
+            player.setLives(3); player.setPosX(0); player.setPosY(300);
         }
         a = 1200;
         dragonlist.clear();
