@@ -1,10 +1,12 @@
+import java.util.Random;
+
 /**
  * Clase MatrizMapa, impementacion de matrices a base de Listas de Listas enlazadas.
  * @author Rodrigo Mendoza.
  */
 public class Matriz extends Lista {
     //Inicio del campo para atributos de la clase.
-    private int tempFila,tempColumna,start,fila,columna; //tempFila almacena temporalmente los contadores de fila en iteraciones, tempColumna
+    public int tempFila,tempColumna,start,fila,columna,objetos=7; //tempFila almacena temporalmente los contadores de fila en iteraciones, tempColumna
     //start almacena un valor que puede ser 0 o 1, se utiliza para saber cual es la primera fila de la matriz.
     //almacena las columnas en iteraciones, fila y columna sirven para determinar la dimension de la matriz.
     private Lista Esquema,currentL;                      //La variable esquema contiene la lista principal que sirve comoe squeleto de la matriz
@@ -153,7 +155,7 @@ public class Matriz extends Lista {
         if (y>fila || x>columna || y<0 || x<0){
             System.out.println("Coordenadas invalidas.");   //Verifica que las coordenadas existan.
         }else {
-            retorno=(int)fila(y,x); //Cuando se cumplen las sentencias se llama al metodo fila para que retorne el dato.
+            retorno=fila(y,x); //Cuando se cumplen las sentencias se llama al metodo fila para que retorne el dato.
         }
         return retorno;
     }
@@ -189,5 +191,56 @@ public class Matriz extends Lista {
             }
         }
         return retorno;
+    }
+
+    public void dragonSpace(Matriz m,int modo){
+        //objetos=7;
+        int contador=objetos;
+        if (modo==1){
+            this.setVal(1,4,1);
+            this.setVal(2,2,1);
+            this.setVal(3,1,1);
+            this.setVal(3,3,1);
+            this.setVal(2,6,1);
+            this.setVal(3,5,1);
+            this.setVal(3,7,1);
+        }
+        if (modo==2){
+            for (int i=1;i<=this.fila;i++){
+                if (contador>0){
+                    for (int j=1;i<=this.columna;j++){
+                        if (contador>0){
+                            contador--;
+                            this.setVal(i,j,1);
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        if (modo==3){
+            Random randomizer = new Random();
+            while (contador>0){
+                int tempx = (randomizer.nextInt(3)+1);
+                int tempy = (randomizer.nextInt(7)+1);
+                if ((int)this.nodoDato(tempx,tempy)==0){
+                    this.setVal(tempx,tempy,1);
+                    contador--;
+                }
+            }
+        }
+    }
+
+    public void resetear(){
+        for (int i=1;i<=fila;i++){
+            for (int j=1;j<=columna;j++){
+                this.setVal(i,j,0);
+            }
+        }
     }
 }

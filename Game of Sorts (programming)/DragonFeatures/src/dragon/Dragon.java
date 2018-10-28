@@ -66,7 +66,7 @@ public class Dragon {
 
     public void generateName() {
         int var10001 = this.getOleada();
-        this.name = "Dragon" + var10001 + this.dragnum;
+        this.name = "Dragon" +"Ol"+var10001+"Num"+ this.dragnum;
         ++this.dragnum;
         System.out.println(this.name);
     }

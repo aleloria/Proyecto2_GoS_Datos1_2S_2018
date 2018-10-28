@@ -5,17 +5,18 @@ public class Dragon {
     private int posX;
     private int posY;
     private Image Image = new ImageIcon("imagenes\\dragon.gif").getImage().getScaledInstance(150,150,1);
-    private String name;
-    private int reloadSpeed;
-    private int age;
-    private int resistance;
-    private int rank;
-    private String father;
+    private String name="";
+    private int reloadSpeed=100;
+    private int age=0;
+    private int resistance=0;
+    private int rank=0;
+    private String father="";
     public int dragnum=0;
 
-    public Dragon(int x,int y){
+    public Dragon(int x,int y, int z){
         posX=x;
         posY=y;
+        age=z;
     }
 
     public void setPosX(int posX) {
