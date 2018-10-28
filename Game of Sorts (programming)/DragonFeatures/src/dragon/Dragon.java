@@ -5,21 +5,25 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class Dragon {
-    private int posX;
-    private int posY;
-    private Image Image = (new ImageIcon("imagenes\\dragon.gif")).getImage().getScaledInstance(150, 150, 1);
-    private String name;
-    private int reloadSpeed;
-    private int age;
-    private int resistance;
-    private int rank;
-    private String father;
+    protected int posX;
+    protected int posY;
+    protected Image Image = (new ImageIcon("imagenes\\dragon.gif")).getImage().getScaledInstance(150, 150, 1);
+    protected String name;
+    protected int reloadSpeed;
+    protected int age;
+    protected int resistance;
+    protected String rank;
+    protected Dragon father = null;
     public int dragnum = 0;
-    private int oleada;
+    protected int oleada;
 
     public Dragon(int x, int y) {
         this.posX = x;
         this.posY = y;
+    }
+
+    public Dragon() {
+
     }
 
     public void setPosX(int posX) {
@@ -67,17 +71,19 @@ public class Dragon {
         System.out.println(this.name);
     }
 
-    public String getName() {
-        return this.name;
-    }
+    public String getName() { return this.name; }
 
-    private int Random(int limit) {
+    public int Random(int min, int max) {
         Random rand = new Random();
-        return rand.nextInt(limit - 2) + 1;
+        return rand.nextInt((max - min)+1) + min;
     }
 
     public void setReloadSpeed() {
-        this.reloadSpeed = this.Random(100);
+        // Comandantes tienen velocidad de recarga alta 65 - 100
+        // Capitan tienen velocidad de recarga media 31 - 64
+        // Infanteria tienen velocidad de recarga baja 1 - 30
+
+        this.reloadSpeed = this.Random(1, 100);
         System.out.println("ReloadSpeed: " + this.reloadSpeed);
     }
 
@@ -86,7 +92,7 @@ public class Dragon {
     }
 
     public void setAge() {
-        this.age = this.Random(1000);
+        this.age = this.Random(1, 1000);
         System.out.println("Age: " + this.age);
     }
 
@@ -95,7 +101,7 @@ public class Dragon {
     }
 
     public void setResistance() {
-        this.resistance = this.Random(3);
+        this.resistance = this.Random(1, 3);
         System.out.println("Resistance: " + this.resistance);
     }
 
@@ -103,19 +109,37 @@ public class Dragon {
         return this.resistance;
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
+    public void setRank(int randonRank) {
+        // rango = 0 -> Comandante -> Raiz del arbol
+        if (randonRank == 0) {
+            this.rank = "Comandante";
+            System.out.println("Rango: " + this.rank);
+        }
+    }
+    public void setRank(){
+        // rango = 1 -> Capitan -> Siguiente nivel bajo la raiz del arbol, rango = 2 -> Infanteria -> Hojas del arbol
+        int randomRank = Random(1, 2);
+
+        if(randomRank == 2){
+            this.rank = "Capitan";
+            System.out.println("Rango: " + this.rank);
+        }
+        else{
+            this.rank = "Infanteria";
+            System.out.println("Rango: " + this.rank);
+        }
     }
 
-    public int getRank() {
+    public String getRank() {
         return this.rank;
     }
 
-    public void setFather(String father) {
+    public void setFather(Dragon father) {
         this.father = father;
+        System.out.println("Padre: " + this.father.getName());
     }
 
-    public String getFather() {
+    public Dragon getFather() {
         return this.father;
     }
 }
