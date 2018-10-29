@@ -196,15 +196,17 @@ public class Matriz extends Lista {
     public void dragonSpace(Matriz m,int modo){
         int contador=objetos;
         if (modo==1){
-            this.setVal(1,4,1);
+            this.setVal(4,1,1);
             this.setVal(2,2,1);
-            this.setVal(3,1,1);
+            this.setVal(1,3,1);
             this.setVal(3,3,1);
-            this.setVal(2,6,1);
-            this.setVal(3,5,1);
-            this.setVal(3,7,1);
+            this.setVal(6,2,1);
+            this.setVal(5,3,1);
+            this.setVal(7,3,1);
+            this.setVal(4,2,1);
+            this.setVal(6,4,1);
         }
-        if (modo==2){
+        if (modo==2 || modo==4 || modo==5){
             for (int i=1;i<=fila;i++){
                 if (contador>0){
                     for (int j=1;j<=columna;j++){

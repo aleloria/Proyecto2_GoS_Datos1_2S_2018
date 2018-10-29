@@ -96,7 +96,6 @@ public class Dragon {
 
     public void setAge(int edad) {
         this.age = edad;
-        //System.out.println("Age: " + this.age);
     }
 
     public int getAge() {
@@ -105,7 +104,10 @@ public class Dragon {
 
     public void setResistance() {
         this.resistance = this.Random(1, 3);
-        //System.out.println("Resistance: " + this.resistance);
+    }
+
+    public void setResistance(int r) {
+        this.resistance=r;
     }
 
     public int getResistance() {

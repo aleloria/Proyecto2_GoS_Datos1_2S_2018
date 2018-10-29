@@ -4,9 +4,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+import java.util.Enumeration;
+
 
 //Importa swing y todos sus elementos.
-public class Huerfana extends JFrame implements Runnable{
+public class Huerfana extends JFrame implements Runnable, SerialPortEventListener {
 
     protected static int x, y, xDirection, yDirection, fuegoX, fuegoY, disparo=0,
                          a=1200, X=0, X1=800, X2=1600, mode=3, kills=0, amov=0,
@@ -23,7 +32,7 @@ public class Huerfana extends JFrame implements Runnable{
 
     protected ArrayList<Dragon> dragokrema = new ArrayList<>();ArrayList<Integer> kesocrema = new ArrayList<>();ArrayList<Integer> edades = new ArrayList<>();ArrayList<DragonBullet> dbullets = new ArrayList<>();
 
-    protected static Matriz drakes = new Matriz(3,7,0);
+    protected static Matriz drakes = new Matriz(7,7,0);
 
     protected static Boolean limit = false,pause=false,arranque=true;
     int OlDragCounter=0,dragnum=1;
@@ -115,6 +124,130 @@ public class Huerfana extends JFrame implements Runnable{
 
     protected static void setYDirection(int ydir) { yDirection = ydir;
     }
+    //Còdigo recuperado de: http://playground.arduino.cc/Interfacing/Java
+    SerialPort serialPort;
+    /**
+     * The port we're normally going to use.
+     */
+    private static final String PORT_NAMES[] = {
+            "/dev/tty.usbserial-A9007UX1", // Mac OS X
+            "/dev/ttyACM0", // Raspberry Pi
+            "/dev/ttyUSB0", // Linux
+            "COM5", // Windows
+    };
+    /**
+     * A BufferedReader which will be fed by a InputStreamReader
+     * converting the bytes into characters
+     * making the displayed results codepage independent
+     */
+    private BufferedReader input;
+    /**
+     * The output stream to the port
+     */
+    private OutputStream output;
+    /**
+     * Milliseconds to block while waiting for port open
+     */
+    private static final int TIME_OUT = 2000;
+    /**
+     * Default bits per second for COM port.
+     */
+    private static final int DATA_RATE = 9600;
+
+    public void initialize() {
+        // the next line is for Raspberry Pi and
+        // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
+        //System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
+        CommPortIdentifier portId = null;
+        Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
+        //First, Find an instance of serial port as set in PORT_NAMES.
+        while (portEnum.hasMoreElements()) {
+            CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
+            for (String portName : PORT_NAMES) {
+                if (currPortId.getName().equals(portName)) {
+                    portId = currPortId;
+                    break;
+                }
+            }
+        }
+        if (portId == null) {
+            System.out.println("Could not find COM port.");
+            return;
+        }
+        try {
+            // open serial port, and use class name for the appName.
+            serialPort = (SerialPort) portId.open(this.getClass().getName(),
+                    TIME_OUT);
+            // set port parameters
+            serialPort.setSerialPortParams(DATA_RATE,
+                    SerialPort.DATABITS_8,
+                    SerialPort.STOPBITS_1,
+                    SerialPort.PARITY_NONE);
+            // open the streams
+            input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+            output = serialPort.getOutputStream();
+            // add event listeners
+            serialPort.addEventListener(this);
+            serialPort.notifyOnDataAvailable(true);
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+    }
+    /**
+     * This should be called when you stop using the port.
+     * This will prevent port locking on platforms like Linux.
+     */
+    public synchronized void close() {
+        if (serialPort != null) {
+            serialPort.removeEventListener();
+            serialPort.close();
+        }
+    }
+    /**
+     * Handle an event on the serial port. Read the data and print it.
+     */
+    public synchronized void serialEvent(SerialPortEvent oEvent) {
+        if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+            try {
+                String inputLine = input.readLine();
+                if(inputLine.equals("RIGHT") && !pause){
+                    if(limit == false) {
+                        setXDirection(+9);
+                        move();
+                    }
+                }
+                if(inputLine.equals("LEFT") && !pause){
+                    if(limit == false) {
+                        setXDirection(-9);
+                        move();
+                    }
+                }
+                if(inputLine.equals("UP") && !pause){
+                    if(limit == false) {
+                        setYDirection(-9);
+                        move();
+                    }
+                }
+                if(inputLine.equals("DOWN") && !pause){
+                    if(limit == false) {
+                        setYDirection(+9);
+                        move();
+                    }
+                }
+                if(inputLine.equals("SHOOT") && disparo < 1 && fuegoX <= 0 && !pause){
+                    disparo++;
+                    ataque();
+                }
+                limit = false;
+                setXDirection(0);
+                setYDirection(0);
+
+            } catch (Exception e) {
+                System.err.println(e.toString());
+            }
+        }
+        // Ignore all the other eventTypes, but you should consider the other ones.
+    }
 
     public Huerfana(){
 
@@ -125,6 +258,18 @@ public class Huerfana extends JFrame implements Runnable{
         setBounds(50,0,1324,775);
         setResizable(false);
         setVisible(true);
+
+        initialize();
+        Thread t=new Thread() {
+            public void run() {
+                //the following line will keep this app alive for 1000 seconds,
+                //waiting for events to occur and responding to them (printing incoming messages to console).
+                try {Thread.sleep(15);} catch (InterruptedException ie) {}
+            }
+        };
+        t.start();
+        System.out.println("Started");
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -181,11 +326,11 @@ public class Huerfana extends JFrame implements Runnable{
 
         if (dbullets.size()>0){
             for (int i=0;i<dbullets.size();i++){
-                g.drawImage(dbullets.get(i).getImage(),dbullets.get(i).getPosX(),dbullets.get(i).getPosY(),null);
-                //g.drawRect(dbullets.get(i).posX+10,dbullets.get(i).posY+20,20,20);
+                g.drawImage(dbullets.get(i).getImage(),dbullets.get(i).getPosX()+10,dbullets.get(i).getPosY()+40,null);
+                //g.drawRect(dbullets.get(i).posX+10,dbullets.get(i).posY+50,20,20);
             }
         }
-        if(fuegoX > 0 && fuegoX < 850){
+        if(fuegoX > 0 && fuegoX < 1150){
             g.drawImage(player.getBullet(), fuegoX, fuegoY,null);
             //g.drawRect(fuegoX+28,fuegoY+20,20,20);
         }
@@ -203,6 +348,8 @@ public class Huerfana extends JFrame implements Runnable{
         }
         g.fillRect(1100,210,224,5);
         g.fillRect(1100,25,224,40);
+        if (mode==5){layout="InsertionSort";}
+        if (mode==4){layout="SelectionSort";}
         if (mode==3){layout="Random.";}
         if (mode==2){layout="QuickSort.";}
         if (mode==1){layout="Árbol.";}
@@ -224,8 +371,8 @@ public class Huerfana extends JFrame implements Runnable{
                 dbullets.remove(i);
             }
         }
-        if (fuegoX > 0 && fuegoX < 1000 && !collide()){
-            fuegoX += 13;
+        if (fuegoX > 0 && fuegoX < 1150 && !collide()){
+            fuegoX += 17;
         }
         else {fuegoX=0;}
         ball.x = fuegoX+28;
@@ -242,16 +389,21 @@ public class Huerfana extends JFrame implements Runnable{
                         drake.y = ((Dragon) drakes.nodoDato(i, j)).getPosY() + 40;
                         if (drake.intersects(ball)) {
                             resultado = true;
-                            drakes.setVal(i,j,0);
-                            drakes.objetos--;
-                            if (kills<4){
-                                kills++;
+                            if (((Dragon)drakes.nodoDato(i,j)).getResistance()==1){
+                                drakes.setVal(i,j,0);
+                                drakes.objetos--;
+                                if (kills<4){
+                                    kills++;
+                                }
+                                else {
+                                    if (kills>=4){
+                                        kills=0;
+                                        sorting();
+                                    }
+                                }
                             }
                             else {
-                                if (kills>=4){
-                                    kills=0;
-                                    sorting();
-                                }
+                                ((Dragon)drakes.nodoDato(i,j)).setResistance(((Dragon)drakes.nodoDato(i,j)).getResistance()-1);
                             }
                             break;
                         }
@@ -276,7 +428,7 @@ public class Huerfana extends JFrame implements Runnable{
                         if (drake.intersects(griffin) || drake.x < -150){
                             drakes.setVal(i,j,0);
                             drakes.objetos--;
-                            if (player.getLives() > 1) {
+                            if (player.getLives() >= 1) {
                                 player.setLives(player.getLives() - 1);
                                 break;
                             }else {
@@ -288,10 +440,10 @@ public class Huerfana extends JFrame implements Runnable{
             }
             for (int i=0;i<dbullets.size();i++){
                 bullet.x = dbullets.get(i).getPosX()+10;
-                bullet.y = dbullets.get(i).getPosY()+20;
+                bullet.y = dbullets.get(i).getPosY()+50;
                 if(bullet.intersects(griffin)){
                     dbullets.remove(i);
-                    if (player.getLives() > 1){
+                    if (player.getLives() >= 1){
                         player.setLives(player.getLives() - 1);
                         break;
                     }else {
@@ -406,8 +558,8 @@ public class Huerfana extends JFrame implements Runnable{
             for (int k=1;k<=drakes.fila;k++){
                 for (int l=1;l<=drakes.columna;l++){
                     if ((int)drakes.nodoDato(k,l)==1){
-                        drakes.setVal(k,l,dragokrema.get(0));
-                        dragokrema.remove(0);
+                        drakes.setVal(k,l,dragokrema.get(dragokrema.size()-1));
+                        dragokrema.remove(dragokrema.size()-1);
                     }
                 }
             }
@@ -415,7 +567,7 @@ public class Huerfana extends JFrame implements Runnable{
         pause=true;
         for (int j=1;j<=drakes.fila;j++){
             for (int k=1;k<=drakes.columna;k++){
-                a=1200+(100*(j-1));
+                a=1400+(100*(j-1));
                 if (drakes.nodoDato(j,k).getClass()==Dragon.class){
                     while (((Dragon)drakes.nodoDato(j,k)).getPosX()!=(a-amov)){
                         try {
@@ -451,8 +603,7 @@ public class Huerfana extends JFrame implements Runnable{
     }
 
     public void reset(){
-        System.out.println("erra");
-        if (player.getLives()>=1) {
+        if (player.getLives()==0) {
             player.setLives(3);
             player.setPosX(0);
             player.setPosY(300);

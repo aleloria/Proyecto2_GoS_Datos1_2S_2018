@@ -1,20 +1,27 @@
-package ordenamiento;
+import java.util.ArrayList;
 
 public class InsertionSort {
-    public static <T extends Comparable<T>> void insertionSort (T[] list)
-    {
-        int outCounter, inCounter;
-        T temp;
-        // Sort list[] into increasing order.
-        for (outCounter = 1; outCounter < list.length; outCounter++)
-        {
-            temp = list[outCounter];
-            for (inCounter = outCounter; inCounter > 0 && list[inCounter - 1].compareTo(temp) > 0; inCounter--)
-            {
-                list[inCounter] = list[inCounter - 1];
+
+    /**
+     * This method will sort the integer array using insertion sort in java algorithm
+     *
+     * @param arr
+     */
+    public static void insertionSort(ArrayList<Integer> arr) {
+        for (int i = 1; i < arr.size(); i++) {
+            int valueToSort = arr.get(i);
+            int j = i;
+            while (j > 0 && arr.get(j - 1) > valueToSort) {
+                arr.set(j,arr.get(j - 1));
+                j--;
             }
-            list[inCounter] = temp;
+            arr.set(j,valueToSort);
+        }
+    }
+
+    public static void populateArray(ArrayList<Integer> B) {
+        for (int i = 0; i < B.size(); i++) {
+            B.set(i, (int) (Math.random() * 100));
         }
     }
 }
-
