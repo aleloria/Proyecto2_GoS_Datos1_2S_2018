@@ -6,7 +6,7 @@ import java.util.Random;
  */
 public class Matriz extends Lista {
     //Inicio del campo para atributos de la clase.
-    public int tempFila,tempColumna,start,fila,columna,objetos=7; //tempFila almacena temporalmente los contadores de fila en iteraciones, tempColumna
+    public int tempFila,tempColumna,start,fila,columna,objetos=20; //tempFila almacena temporalmente los contadores de fila en iteraciones, tempColumna
     //start almacena un valor que puede ser 0 o 1, se utiliza para saber cual es la primera fila de la matriz.
     //almacena las columnas en iteraciones, fila y columna sirven para determinar la dimension de la matriz.
     private Lista Esquema,currentL;                      //La variable esquema contiene la lista principal que sirve comoe squeleto de la matriz
@@ -97,7 +97,7 @@ public class Matriz extends Lista {
     public void setVal(int m, int n, Object valor){
         tempFila=1;tempColumna=1;   //Se inicializan los contadores de filas y columnas, respectivamente, en 1.
         if (fila<m || columna<n){
-            System.out.println("La lista posee "+fila+" filas y "+columna+" columnas, ingrese un valor válido.");   //Si las coordenadas no existen imprime un mensaje de error.
+            System.out.println("La lista posee "+fila+" filas y "+columna+" columnas, ingrese un valor válido. "+m+"   "+n);   //Si las coordenadas no existen imprime un mensaje de error.
         }
         else {
             currentN=Esquema.first; //Posiciona la variable temporal en la primera fila de la matriz.
@@ -194,7 +194,6 @@ public class Matriz extends Lista {
     }
 
     public void dragonSpace(Matriz m,int modo){
-        //objetos=7;
         int contador=objetos;
         if (modo==1){
             this.setVal(1,4,1);
@@ -206,20 +205,14 @@ public class Matriz extends Lista {
             this.setVal(3,7,1);
         }
         if (modo==2){
-            for (int i=1;i<=this.fila;i++){
+            for (int i=1;i<=fila;i++){
                 if (contador>0){
-                    for (int j=1;i<=this.columna;j++){
+                    for (int j=1;j<=columna;j++){
                         if (contador>0){
+                            setVal(i,j,1);
                             contador--;
-                            this.setVal(i,j,1);
-                        }
-                        else {
-                            break;
                         }
                     }
-                }
-                else {
-                    break;
                 }
             }
         }

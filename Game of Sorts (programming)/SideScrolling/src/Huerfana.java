@@ -1,14 +1,7 @@
-import sun.java2d.pipe.TextRenderer;
-import sun.plugin2.message.BestJREAvailableMessage;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,7 +9,8 @@ import java.util.Random;
 public class Huerfana extends JFrame implements Runnable{
 
     protected static int x, y, xDirection, yDirection, fuegoX, fuegoY, disparo=0,
-                         a=1200, X=0, X1=800, X2=1600, mode=3, kills=0, amov=0;
+                         a=1200, X=0, X1=800, X2=1600, mode=3, kills=0, amov=0,
+                         bulletcont=0, dragmov=0;
 
     protected static Graphics2D dbg;
     protected static Image dbImage, load;
@@ -24,14 +18,19 @@ public class Huerfana extends JFrame implements Runnable{
                      Rectangle drake = new Rectangle(-10,-10,98,55);
                      Rectangle griffin = new Rectangle(43, 80,98,45);
                      Rectangle pointer = new Rectangle(0, 0,1,1);
+                     Rectangle bullet = new Rectangle(0, 0,20,20);
 
-    protected ArrayList<Integer> edades = new ArrayList<>();
-    protected Matriz drakes = new Matriz(3,7,0);
+
+    protected ArrayList<Dragon> dragokrema = new ArrayList<>();ArrayList<Integer> kesocrema = new ArrayList<>();ArrayList<Integer> edades = new ArrayList<>();ArrayList<DragonBullet> dbullets = new ArrayList<>();
+
+    protected static Matriz drakes = new Matriz(3,7,0);
 
     protected static Boolean limit = false,pause=false,arranque=true;
+    int OlDragCounter=0,dragnum=1;
 
     protected GriffinRider player = new GriffinRider();
-    protected String dragonData=" Nombre: "+"\n"+
+    protected String layout="",dragonData=
+                                " Nombre: "+"\n"+
                                 " Edad: "+"\n"+
                                 " Velocidad de recarga: "+"\n"+
                                 " Resistencia: "+"\n"+
@@ -46,20 +45,37 @@ public class Huerfana extends JFrame implements Runnable{
                     move();
                     scrolling();
                     movimientoDisparo();
+
                 }
                 Thread.sleep(10);
             }
         }catch(Exception e){
             System.out.println("!Uh-oh, something went wrong!.");
+            System.out.println(e);
         }
     }
 
     protected void move() {
-        amov++;
-            for (int i=1; i<=3;i++){
-                for (int j=1;j<=7;j++){
+        if (dragmov==1){
+            dragmov=0;
+        }
+        else {
+            dragmov=1;
+        }
+        if (bulletcont>=1000){
+            bulletcont=0;
+        }
+        amov+=dragmov;bulletcont++;
+            for (int i=1; i<=drakes.fila;i++){
+                for (int j=1;j<=drakes.columna;j++){
                     if ((drakes.nodoDato(i,j)).getClass()==Dragon.class){
-                        ((Dragon)drakes.nodoDato(i,j)).setPosX(((Dragon)drakes.nodoDato(i,j)).getPosX()-1);
+                        ((Dragon)drakes.nodoDato(i,j)).setPosX(((Dragon)drakes.nodoDato(i,j)).getPosX()-dragmov);
+                        if(((Dragon)drakes.nodoDato(i,j)).getReloadSpeed()==bulletcont){
+
+                            DragonBullet fuego=new DragonBullet(((Dragon)drakes.nodoDato(i,j)).getPosX(),((Dragon)drakes.nodoDato(i,j)).getPosY());
+
+                            dbullets.add(fuego);
+                        }
                     }
                 }
             }
@@ -123,7 +139,7 @@ public class Huerfana extends JFrame implements Runnable{
 
         load = new ImageIcon("imagenes\\coloso.jpg").getImage().getScaledInstance(800, 800, 1);
 
-        drakes.objetos=7;
+        drakes.objetos=20;
         dragonMaker();
     }
 
@@ -163,6 +179,12 @@ public class Huerfana extends JFrame implements Runnable{
             }
         }
 
+        if (dbullets.size()>0){
+            for (int i=0;i<dbullets.size();i++){
+                g.drawImage(dbullets.get(i).getImage(),dbullets.get(i).getPosX(),dbullets.get(i).getPosY(),null);
+                //g.drawRect(dbullets.get(i).posX+10,dbullets.get(i).posY+20,20,20);
+            }
+        }
         if(fuegoX > 0 && fuegoX < 850){
             g.drawImage(player.getBullet(), fuegoX, fuegoY,null);
             //g.drawRect(fuegoX+28,fuegoY+20,20,20);
@@ -174,12 +196,17 @@ public class Huerfana extends JFrame implements Runnable{
         g.setFont(new Font("Times new roman",Font.BOLD,18));
         g.setColor(Color.BLACK);
 
-        int space=40;
+        int space=80;
         for (String dragonData: dragonData.split("\n")) {
         	g.drawString(""+dragonData,1100,space);
         	space+=25;
         }
-        g.fillRect(1100,170,224,5);
+        g.fillRect(1100,210,224,5);
+        g.fillRect(1100,25,224,40);
+        if (mode==3){layout="Random.";}
+        if (mode==2){layout="QuickSort.";}
+        if (mode==1){layout="Árbol.";}
+        g.setFont(new Font("Times new roman",Font.ITALIC+Font.BOLD,18));g.setColor(Color.WHITE);g.drawString((" Layout: "+layout),1100,50);
         repaint();
     }
 
@@ -191,8 +218,14 @@ public class Huerfana extends JFrame implements Runnable{
     }
 
     protected void movimientoDisparo(){
-        if (fuegoX > 0 && fuegoX < 850 && !collide()){
-            fuegoX += 12;
+        for (int i=0;i<dbullets.size();i++){
+            dbullets.get(i).setPosX(dbullets.get(i).getPosX()-3);
+            if (dbullets.get(i).posX<=-20){
+                dbullets.remove(i);
+            }
+        }
+        if (fuegoX > 0 && fuegoX < 1000 && !collide()){
+            fuegoX += 13;
         }
         else {fuegoX=0;}
         ball.x = fuegoX+28;
@@ -202,8 +235,8 @@ public class Huerfana extends JFrame implements Runnable{
     protected boolean collide(){
         boolean resultado = false;
         if (drakes.objetos > 0){
-            for(int i = 1; i <=3; i++){
-                for(int j = 1; j <=7; j++) {
+            for(int i = 1; i <=drakes.fila; i++){
+                for(int j = 1; j <=drakes.columna; j++) {
                     if ((drakes.nodoDato(i,j).getClass()==Dragon.class)){
                         drake.x = ((Dragon) drakes.nodoDato(i, j)).getPosX() + 35;
                         drake.y = ((Dragon) drakes.nodoDato(i, j)).getPosY() + 40;
@@ -211,11 +244,11 @@ public class Huerfana extends JFrame implements Runnable{
                             resultado = true;
                             drakes.setVal(i,j,0);
                             drakes.objetos--;
-                            if (kills<1){
+                            if (kills<4){
                                 kills++;
                             }
                             else {
-                                if (kills>=1){
+                                if (kills>=4){
                                     kills=0;
                                     sorting();
                                 }
@@ -227,23 +260,19 @@ public class Huerfana extends JFrame implements Runnable{
             }
         }
         else {
-            if (player.getLives() > 0){
-                reset(false);
-            }
-            else {
-                reset(true);
-            }
+            reset();
         }
         return resultado;
     }
 
     public void collidePlayer(){
         if (drakes.objetos > 0 && player.getLives() > 0){
-            for(int i = 1; i <= 3; i++){
-                for (int j=1;j<=7;j++){
+            for(int i = 1; i <= drakes.fila; i++){
+                for (int j=1;j<=drakes.columna;j++){
                     if ((drakes.nodoDato(i,j)).getClass()==Dragon.class){
                         drake.x=((Dragon)drakes.nodoDato(i,j)).getPosX() + 35;
                         drake.y=((Dragon)drakes.nodoDato(i,j)).getPosY() + 40;
+
                         if (drake.intersects(griffin) || drake.x < -150){
                             drakes.setVal(i,j,0);
                             drakes.objetos--;
@@ -251,27 +280,37 @@ public class Huerfana extends JFrame implements Runnable{
                                 player.setLives(player.getLives() - 1);
                                 break;
                             }else {
-                                reset(true);
+                                reset();
                             }
                         }
                     }
                 }
             }
+            for (int i=0;i<dbullets.size();i++){
+                bullet.x = dbullets.get(i).getPosX()+10;
+                bullet.y = dbullets.get(i).getPosY()+20;
+                if(bullet.intersects(griffin)){
+                    dbullets.remove(i);
+                    if (player.getLives() > 1){
+                        player.setLives(player.getLives() - 1);
+                        break;
+                    }else {
+                        reset();
+                    }
+
+                }
+
+            }
         }
         else {
-            if (player.getLives() > 0){
-                reset(false);
-            }
-            else {
-                reset(true);
-            }
+            reset();
         }
     }
 
     public void collidePointer(){
         if (drakes.objetos > 0){
-            for(int i = 1; i <= 3; i++){
-                for (int j = 1; j <= 7; j++){
+            for(int i = 1; i <= drakes.fila; i++){
+                for (int j = 1; j <= drakes.columna; j++){
                     if ((drakes.nodoDato(i,j)).getClass()==Dragon.class){
                         drake.x=((Dragon)drakes.nodoDato(i,j)).getPosX() + 35;
                         drake.y=((Dragon)drakes.nodoDato(i,j)).getPosY() + 40;
@@ -290,6 +329,7 @@ public class Huerfana extends JFrame implements Runnable{
         }
     }
 
+
     public void dragonMaker(){
         int c=20,age;
         Random ages = new Random();
@@ -299,14 +339,14 @@ public class Huerfana extends JFrame implements Runnable{
         }
         drakes.dragonSpace(drakes,mode);
         for (int i=1;i<=drakes.fila;i++) {
-            for (int j = 1; j <= drakes.columna; j++) {
+            for (int j = 1; j <=drakes.columna; j++) {
                 if ((int) drakes.nodoDato(i, j) == 1) {
                     while (true){
                         if (edades.size()<1000){
                             age=ages.nextInt(1001);
                             if (!edades.contains(age)) {
-                                Dragon dragon = new Dragon(a, c+((j-1)*100), age);
-                                dragon.dragnum = i*j;
+                                Dragon dragon = new Dragon(a,(c+((j-1)*100)),age,OlDragCounter,dragnum);
+                                dragnum++;
                                 drakes.setVal(i,j,dragon);
                                 edades.add(age);
                                 break;
@@ -328,35 +368,40 @@ public class Huerfana extends JFrame implements Runnable{
     }
 
     public void sorting(){
-        ArrayList<Dragon> dragokrema = new ArrayList<>();
-        ArrayList<Integer> kesocrema = new ArrayList<>();
-        for (int i=1;i<=drakes.fila;i++){
-            for (int j=1;j<=drakes.columna;j++){
-                if ((drakes.nodoDato(i,j)).getClass()==Dragon.class){
-                    dragokrema.add((Dragon)drakes.nodoDato(i,j));
-                    kesocrema.add((((Dragon) drakes.nodoDato(i,j)).getAge()));
-                    drakes.setVal(i,j,1);
+        if (drakes.objetos>0){
+            for (int i=1;i<=drakes.fila;i++){
+                for (int j=1;j<=drakes.columna;j++){
+                    if ((drakes.nodoDato(i,j)).getClass()==Dragon.class){
+                        dragokrema.add((Dragon)drakes.nodoDato(i,j));
+                        kesocrema.add((((Dragon) drakes.nodoDato(i,j)).getAge()));
+                        drakes.setVal(i,j,1);
+                    }
                 }
             }
+            QuickSort sort = new QuickSort();
+            sort.quickSort(kesocrema);
+            sorter();
         }
-        QuickSort sort = new QuickSort(kesocrema);
-        sort.startQuickStart(0,kesocrema.size()-1);
+    }
+
+    public void sorter(){
         int i=0;
         while (kesocrema.size()>0) {
             i=0;
-           while (i<dragokrema.size()){
-               if (dragokrema.get(i).getAge()==kesocrema.get(0)){
-                   kesocrema.remove(0);
-                   Dragon temp=dragokrema.get(i);
-                   dragokrema.remove(i);
-                   dragokrema.add(temp);
-                   break;
-               }
-               i++;
-           }
+            while (i<dragokrema.size()){
+                if (dragokrema.get(i).getAge()==kesocrema.get(0)){
+                    kesocrema.remove(0);
+                    Dragon temp=dragokrema.get(i);
+                    dragokrema.remove(i);
+                    dragokrema.add(temp);
+                    break;
+                }
+                i++;
+            }
         }
         drakes.resetear();
-        drakes.dragonSpace(drakes,2);
+        mode=2;
+        drakes.dragonSpace(drakes,mode);
         for (int j=0;j<dragokrema.size();j++){
             for (int k=1;k<=drakes.fila;k++){
                 for (int l=1;l<=drakes.columna;l++){
@@ -370,6 +415,7 @@ public class Huerfana extends JFrame implements Runnable{
         pause=true;
         for (int j=1;j<=drakes.fila;j++){
             for (int k=1;k<=drakes.columna;k++){
+                a=1200+(100*(j-1));
                 if (drakes.nodoDato(j,k).getClass()==Dragon.class){
                     while (((Dragon)drakes.nodoDato(j,k)).getPosX()!=(a-amov)){
                         try {
@@ -379,7 +425,7 @@ public class Huerfana extends JFrame implements Runnable{
                             else if (((Dragon)drakes.nodoDato(j,k)).getPosX()>a-amov){
                                 ((Dragon)drakes.nodoDato(j,k)).setPosX(((Dragon)drakes.nodoDato(j,k)).getPosX()-1);
                             }
-                            Thread.sleep(10);
+                            Thread.sleep(1);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -392,7 +438,7 @@ public class Huerfana extends JFrame implements Runnable{
                             if (((Dragon)drakes.nodoDato(j,k)).getPosY()>20+(100*(k-1))){
                                 ((Dragon)drakes.nodoDato(j,k)).setPosY(((Dragon)drakes.nodoDato(j,k)).getPosY()-1);
                             }
-                            Thread.sleep(10);
+                            Thread.sleep(1);
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -400,21 +446,24 @@ public class Huerfana extends JFrame implements Runnable{
                 }
             }
         }
+        kills=0;
         pause=false;
     }
 
-    public void reset(boolean mode){
-        if (mode) {
+    public void reset(){
+        System.out.println("erra");
+        if (player.getLives()>=1) {
             player.setLives(3);
             player.setPosX(0);
             player.setPosY(300);
             edades.clear();
         }
+        dbullets.clear();
         a = 1200;
-        drakes.objetos=7;
+        drakes.resetear();
+        drakes.objetos=20;
         kills=0;
         amov=0;
-        drakes.resetear();
         dragonMaker();
     }
 }
